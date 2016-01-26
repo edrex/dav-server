@@ -1,0 +1,22 @@
+{
+  "name": "dav-server",
+  "version": "0.0.1",
+  "description": "A simple filesystem based DAV server using jsDAV",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edrex/dav-server.git"
+  },
+  "author": "Eric Drechsel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edrex/dav-server/issues"
+  },
+  "homepage": "https://github.com/edrex/dav-server#readme",
+  "dependencies": {
+    "jsDAV": "^0.3.3"
+  }
+}
