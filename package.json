@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/edrex/dav-server#readme",
   "dependencies": {
-    "jsDAV": "^0.3.3"
+    "jsDAV": "^0.3.3",
+    "minimist": "^1.2.0"
   }
 }
