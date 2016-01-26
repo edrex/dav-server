@@ -6,7 +6,7 @@
  */
 "use strict";
 
-var args = require('minimist')(process.argv.slice(2), {boolean: ['debug','h']});
+var args = require('minimist')(process.argv.slice(2), {boolean: ['debug','h'], string: ['i', 'p']});
 var fs = require('fs')
 var path = require('path')
 var jsDAV = require("jsdav");
@@ -28,4 +28,4 @@ if (!fs.statSync(rootDir).isDirectory()) exitMsg(rootDir+": not a directory.");
 jsDAV.createServer({
   node: rootDir,
   locksBackend: jsDAV_Locks_Backend_FS.new(rootDir)
-}, 8000);
+}, args.p || 8000, args.i || '127.0.0.1');
