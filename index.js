@@ -10,12 +10,14 @@ var args = require('minimist')(process.argv.slice(2), {boolean: ['debug','h']});
 var jsDAV = require("jsdav");
 var jsDAV_Locks_Backend_FS = require("jsdav/lib/DAV/plugins/locks/fs");
 
-function printUsage(){
-  console.log("dav-server [--debug] rootDir");
-  process.exit();
+var usage = "dav-server [--debug] [-i LISTEN_IP] [-p PORT] rootDir";
+
+function exitMsg(msg, code){
+  console.log(msg);
+  process.exit(code || 0);
 }
 
-if (args.h || args._.length !== 1) printUsage();
+if (args.h || args._.length !== 1) exitMsg(usage);
 if (args.debug) jsDAV.debugMode = true;
 
 var rootDir = __dirname + args._.shift();
