@@ -1,7 +1,7 @@
 {
   "name": "dav-server",
-  "version": "0.0.1",
-  "description": "A simple filesystem based DAV server using jsDAV",
+  "version": "0.1.0",
+  "description": "A filesystem based DAV server command thinnly wrapping jsDAV",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

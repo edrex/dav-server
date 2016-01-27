@@ -6,13 +6,12 @@
  */
 "use strict";
 
-var args = require('minimist')(process.argv.slice(2), {boolean: ['debug','h'], string: ['i', 'p']});
-var fs = require('fs')
-var path = require('path')
+var args = require('minimist')(process.argv.slice(2), {boolean: ['debug','h'], string: ['i', 'p', 'digest', 'realm'], default: {i:'127.0.0.1', p:8000}});
+var fs = require('fs');
+var path = require('path');
 var jsDAV = require("jsdav");
-var jsDAV_Locks_Backend_FS = require("jsdav/lib/DAV/plugins/locks/fs");
 
-var usage = "dav-server [--debug] [-i LISTEN_IP] [-p PORT] rootDir";
+var usage = "dav-server [--debug] [-i LISTEN_IP] [-p PORT] [--digest HTDIGEST_FILE --realm AUTH_REALM] rootDir";
 
 function exitMsg(msg, code){
   console.log(msg);
@@ -23,9 +22,20 @@ if (args.h || args._.length !== 1) exitMsg(usage);
 if (args.debug) jsDAV.debugMode = true;
 
 var rootDir = path.join(args._.shift(), '/');
-if (!fs.existsSync(rootDir)) exitMsg(rootDir+" does not exist.");
-if (!fs.statSync(rootDir).isDirectory()) exitMsg(rootDir+": not a directory.");
-jsDAV.createServer({
+if (!fs.existsSync(rootDir)) exitMsg(rootDir+" does not exist.", 1);
+if (!fs.statSync(rootDir).isDirectory()) exitMsg(rootDir+": not a directory.", 1);
+
+var config = {
   node: rootDir,
-  locksBackend: jsDAV_Locks_Backend_FS.new(rootDir)
-}, args.p || 8000, args.i || '127.0.0.1');
+  locksBackend: require("jsdav/lib/DAV/plugins/locks/fs").new(rootDir)
+}
+
+if (args.digest || args.realm) {
+  if (!args.digest || !args.realm ) {
+    exitMsg("--digest and --realm are corequisite.", 1);
+  }
+  config.authBackend = require("jsdav/lib/DAV/plugins/auth/file").new(args.digest);
+  config.realm = args.realm;
+}
+
+jsDAV.createServer(config, args.p, args.i);
