@@ -1,8 +1,11 @@
 {
   "name": "dav-server",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A filesystem based DAV server command thinnly wrapping jsDAV",
   "main": "index.js",
+  "bin": {
+    "dav-server": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
